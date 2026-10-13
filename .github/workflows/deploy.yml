@@ -12,11 +12,15 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Flutter
@@ -27,12 +31,14 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build web
-        run: flutter build web --release --base-href /AgriFlutter/
       - name: Configure GitHub Pages
-      uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v5
+
+      - name: Build Flutter web
+        run: flutter build web --release --base-href /AgriFlutter/
+
       - name: Upload web files
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: build/web
 
