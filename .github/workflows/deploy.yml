@@ -29,7 +29,8 @@ jobs:
 
       - name: Build web
         run: flutter build web --release --base-href /AgriFlutter/
-
+      - name: Configure GitHub Pages
+      uses: actions/configure-pages@v5
       - name: Upload web files
         uses: actions/upload-pages-artifact@v3
         with:
